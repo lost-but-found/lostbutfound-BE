@@ -1,2 +1,3 @@
 # lostbutfound-BE
-Backend codebase for lostbutfound
+
+## Getting started!
