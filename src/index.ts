@@ -36,6 +36,7 @@ app.use(cookieParser());
 
 app.use("/register", require("./routes/register"));
 app.use("/login", require("./routes/login"));
+app.use("/all-items", require("./routes/all-items"));
 // app.use("/refresh", require("./routes/refresh"));
 // app.use("/logout", require("./routes/logout"));
 
