@@ -12,6 +12,12 @@ const itemSchema = new Schema({
   missing: {
     type: Boolean,
   },
+  category: {
+    name: {
+      type: String,
+      required: true,
+    },
+  },
   createdAt: {
     type: String,
   },

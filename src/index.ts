@@ -41,6 +41,10 @@ app.use("/all-items", require("./routes/all-items"));
 // app.use("/logout", require("./routes/logout"));
 
 app.use(verifyJWT);
+app.use("/add-missing-item", require("./routes/items/add-missing-item"));
+app.use("/add-found-item", require("./routes/items/add-found-item"));
+app.use("/items-by-user", require("./routes/items/items-by-user"));
+
 //app.use("/employees", require("./routes/api/employees"));
 
 mongoose.connection.once("open", () => {
