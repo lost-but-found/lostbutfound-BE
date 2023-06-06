@@ -1,12 +1,14 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const path = require("path");
 const cors = require("cors");
 const corsOptions = require("./config/corsOptions");
-const verifyJWT = require("./middleware/verifyJWT");
+const verifyJWT_1 = __importDefault(require("./middleware/verifyJWT"));
 const cookieParser = require("cookie-parser");
 const credentials = require("./middleware/credentials");
 const mongoose = require("mongoose");
@@ -26,12 +28,15 @@ app.use(express.json());
 //middleware for cookies
 app.use(cookieParser());
 // routes
-// app.use("/", require("./routes/root"));
-// app.use("/register", require("./routes/register"));
-// app.use("/auth", require("./routes/auth"));
+app.use("/register", require("./routes/register"));
+app.use("/login", require("./routes/login"));
+app.use("/all-items", require("./routes/items/all-items"));
 // app.use("/refresh", require("./routes/refresh"));
 // app.use("/logout", require("./routes/logout"));
-app.use(verifyJWT);
+app.use(verifyJWT_1.default);
+app.use("/add-missing-item", require("./routes/items/add-missing-item"));
+app.use("/add-found-item", require("./routes/items/add-found-item"));
+app.use("/items-by-user", require("./routes/items/items-by-user"));
 //app.use("/employees", require("./routes/api/employees"));
 mongoose.connection.once("open", () => {
     console.log("Connected to MongoDB");

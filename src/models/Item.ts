@@ -11,12 +11,14 @@ const itemSchema = new Schema({
   },
   missing: {
     type: Boolean,
+    default: true,
   },
   category: {
-    name: {
-      type: String,
-      required: true,
-    },
+    type: String,
+    required: true,
+  },
+  itemImg: {
+    type: String,
   },
   createdAt: {
     type: String,

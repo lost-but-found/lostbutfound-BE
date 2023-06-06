@@ -1,5 +1,5 @@
-const Item = require("models/Item");
-const User = require("models/User");
+const Item = require("../models/Item");
+const User = require("../models/User");
 
 const handleAllItems = async (req, res) => {
   const allItems = await Item.find();
@@ -7,18 +7,20 @@ const handleAllItems = async (req, res) => {
 };
 
 const addMissingItem = async (req, res) => {
-  const { title, desc } = req.body;
+  const { title, desc, category } = req.body;
 
   try {
-    const result = Item.create({
+    const result = await Item.create({
       title,
       description: desc,
       missing: true,
+      category,
+      itemImg: req.file.path, // Store the file path in the profilePic field
     });
     res.send({ message: "Item added!" });
     console.log(result);
   } catch (error) {
-    res.send(error);
+    res.send({ message: error });
   }
 };
 
@@ -26,7 +28,7 @@ const addFoundItem = async (req, res) => {
   const { title, desc } = req.body;
 
   try {
-    const result = Item.create({
+    const result = await Item.create({
       title,
       description: desc,
       missing: false,
