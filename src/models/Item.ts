@@ -20,6 +20,9 @@ const itemSchema = new Schema({
   itemImg: {
     type: String,
   },
+  location: {
+    type: String,
+  },
   createdAt: {
     type: String,
   },
