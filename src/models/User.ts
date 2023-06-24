@@ -1,5 +1,13 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+import { Schema, Document, model } from "mongoose";
+
+interface IUser extends Document {
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  password: string;
+  personalID: string;
+  refreshToken: string;
+}
 
 const userSchema = new Schema({
   fullName: {
@@ -13,6 +21,8 @@ const userSchema = new Schema({
   },
   phoneNumber: {
     type: String,
+    unique: true,
+    required: true,
   },
   personalID: {
     type: String,
@@ -24,4 +34,5 @@ const userSchema = new Schema({
   refreshToken: String,
 });
 
-module.exports = mongoose.model("User", userSchema);
+// module.exports = mongoose.model("User", userSchema);
+export default model<IUser>("User", userSchema);

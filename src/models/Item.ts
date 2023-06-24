@@ -1,7 +1,18 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+import { Schema, Document, model, Types } from "mongoose";
 
-const itemSchema = new Schema({
+interface IItem extends Document {
+  title: string;
+  description?: string;
+  missing: boolean;
+  category: string;
+  itemImg?: string;
+  otherImgs?: string[];
+  location?: string;
+  createdAt?: Date;
+  userId?: string | Types.ObjectId;
+}
+
+const itemSchema = new Schema<IItem>({
   title: {
     type: String,
     required: true,
@@ -20,11 +31,13 @@ const itemSchema = new Schema({
   itemImg: {
     type: String,
   },
+  otherImgs: [{ type: String }],
   location: {
     type: String,
   },
   createdAt: {
-    type: String,
+    type: Date,
+    default: Date.now,
   },
   userId: {
     type: Schema.Types.ObjectId,
@@ -32,4 +45,4 @@ const itemSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Item", itemSchema);
+export default model<IItem>("Item", itemSchema);

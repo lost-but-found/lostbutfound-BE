@@ -1,8 +1,9 @@
-const express = require("express");
-const router = express.Router();
-const itemsController = require("../../controllers/itemsController");
+import express, { Router } from "express";
+import { addMissingItem } from "../../controllers/itemsController";
 const upload = require("../../middleware/multer");
 
-router.post("/", upload.single("itemImg"), itemsController.addMissingItem);
+const router: Router = express.Router();
 
-module.exports = router;
+router.post("/", upload.single("itemImg"), addMissingItem);
+
+export default router;

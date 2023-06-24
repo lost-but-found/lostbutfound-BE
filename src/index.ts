@@ -10,6 +10,13 @@ const credentials = require("./middleware/credentials");
 const mongoose = require("mongoose");
 const connectDB = require("./config/dbConn");
 
+// Routes imports
+import missingItemRouter from "./routes/items/add-missing-item";
+import foundItemRouter from "./routes/items/add-found-item";
+import registerRouter from "./routes/register";
+import loginRouter from "./routes/login";
+import allItemsRouter from "./routes/items/all-items";
+
 const PORT = process.env.PORT || 3500;
 
 // Connect to MongoDB
@@ -32,18 +39,15 @@ app.use(express.json());
 app.use(cookieParser());
 
 // routes
-app.use("/register", require("./routes/register"));
-app.use("/login", require("./routes/login"));
-app.use("/all-items", require("./routes/items/all-items"));
-// app.use("/refresh", require("./routes/refresh"));
-// app.use("/logout", require("./routes/logout"));
+app.use("/register", registerRouter);
+app.use("/login", loginRouter);
+app.use("/all-items", allItemsRouter);
+app.use("/refresh", require("./routes/refresh"));
 
 app.use(verifyJWT);
-app.use("/add-missing-item", require("./routes/items/add-missing-item"));
-app.use("/add-found-item", require("./routes/items/add-found-item"));
+app.use("/missing-item", missingItemRouter);
+app.use("/found-item", foundItemRouter);
 app.use("/items-by-user", require("./routes/items/items-by-user"));
-
-//app.use("/employees", require("./routes/api/employees"));
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");

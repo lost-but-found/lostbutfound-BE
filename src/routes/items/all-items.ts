@@ -1,7 +1,8 @@
-const express = require("express");
-const router = express.Router();
-const itemsController = require("../../controllers/itemsController");
+import express, { Router } from "express";
+import { handleAllItems } from "../../controllers/itemsController";
 
-router.post("/", itemsController.handleAllItems);
+const router: Router = express.Router();
 
-module.exports = router;
+router.post("/", handleAllItems);
+
+export default router;

@@ -1,6 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const User = require("../models/User");
+exports.handleLogin = void 0;
+const User_1 = __importDefault(require("../models/User"));
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const handleLogin = async (req, res) => {
@@ -9,16 +13,16 @@ const handleLogin = async (req, res) => {
         return res
             .status(400)
             .json({ message: "Email and password are required." });
-    const foundUser = await User.findOne({ email }).exec();
+    const foundUser = await User_1.default.findOne({ email }).exec();
     console.log(foundUser);
     if (!foundUser)
-        return res.sendStatus(401); //Unauthorized
+        return res.status(401).send({ message: "Unauthorized" }); //Unauthorized
     // evaluate password
     const match = await bcrypt.compare(pwd, foundUser.password);
     if (match) {
         // create JWTs
         const accessToken = jwt.sign({ email: foundUser.email }, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: "300s",
+            expiresIn: "1d",
         });
         const refreshToken = jwt.sign({ email: foundUser.email }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "5d" });
         // Saving refreshToken with current user
@@ -34,8 +38,8 @@ const handleLogin = async (req, res) => {
         res.json({ accessToken });
     }
     else {
-        res.sendStatus(401);
+        res.status(401).send({ message: "Incorrect username or password" });
     }
 };
-module.exports = { handleLogin };
+exports.handleLogin = handleLogin;
 //# sourceMappingURL=loginController.js.map

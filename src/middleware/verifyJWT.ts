@@ -10,8 +10,8 @@ const verifyJWT = (req: CustomRequest, res: Response, next: NextFunction) => {
     req.headers.authorization || req.headers.Authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    // return res.sendStatus(401);
-    res.send({ message: "No header found!" });
+    return res.sendStatus(401);
+    // res.send({ message: "No header found!" });
   }
 
   const token: string = authHeader.split(" ")[1];

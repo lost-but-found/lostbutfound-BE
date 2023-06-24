@@ -1,4 +1,4 @@
-const User = require("../models/User");
+import User from "../models/User";
 const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
@@ -12,7 +12,7 @@ const handleLogin = async (req, res) => {
   const foundUser = await User.findOne({ email }).exec();
   console.log(foundUser);
 
-  if (!foundUser) return res.sendStatus(401); //Unauthorized
+  if (!foundUser) return res.status(401).send({ message: "Unauthorized" }); //Unauthorized
 
   // evaluate password
   const match = await bcrypt.compare(pwd, foundUser.password);
@@ -22,7 +22,7 @@ const handleLogin = async (req, res) => {
       { email: foundUser.email },
       process.env.ACCESS_TOKEN_SECRET,
       {
-        expiresIn: "3000s",
+        expiresIn: "1d",
       }
     );
     const refreshToken = jwt.sign(
@@ -44,8 +44,8 @@ const handleLogin = async (req, res) => {
     });
     res.json({ accessToken });
   } else {
-    res.sendStatus(401);
+    res.status(401).send({ message: "Incorrect username or password" });
   }
 };
 
-module.exports = { handleLogin };
+export { handleLogin };

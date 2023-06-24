@@ -1,8 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-const itemSchema = new Schema({
+const mongoose_1 = require("mongoose");
+const itemSchema = new mongoose_1.Schema({
     title: {
         type: String,
         required: true,
@@ -21,13 +20,18 @@ const itemSchema = new Schema({
     itemImg: {
         type: String,
     },
-    createdAt: {
+    otherImgs: [{ type: String }],
+    location: {
         type: String,
     },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
     userId: {
-        type: Schema.Types.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
         ref: "User",
     },
 });
-module.exports = mongoose.model("Item", itemSchema);
+exports.default = (0, mongoose_1.model)("Item", itemSchema);
 //# sourceMappingURL=Item.js.map

@@ -1,5 +1,5 @@
-const Item = require("../models/Item");
-const User = require("../models/User");
+import Item from "../models/Item";
+import User from "../models/User";
 
 const handleAllItems = async (req, res) => {
   const allItems = await Item.find();
@@ -9,29 +9,36 @@ const handleAllItems = async (req, res) => {
 const addMissingItem = async (req, res) => {
   const { title, desc, category } = req.body;
 
+  const itemImg: string | undefined = req.file?.path;
+
   try {
     const result = await Item.create({
       title,
       description: desc,
       missing: true,
       category,
-      itemImg: req.file.path, // Store the file path in the profilePic field
+      itemImg, // Store the file path in the itemPic field
     });
     res.send({ message: "Item added!" });
     console.log(result);
   } catch (error) {
-    res.send({ message: error });
+    res.status(500).send({ error });
+    console.log(error);
   }
 };
 
 const addFoundItem = async (req, res) => {
-  const { title, desc } = req.body;
+  const { title, desc, category } = req.body;
+
+  const itemImg: string | undefined = req.file?.path;
 
   try {
     const result = await Item.create({
       title,
       description: desc,
       missing: false,
+      category,
+      itemImg,
     });
     res.send({ message: "Item added!" });
     console.log(result);
@@ -55,9 +62,4 @@ const getItemsByUser = async (req, res) => {
   }
 };
 
-module.exports = {
-  handleAllItems,
-  addMissingItem,
-  addFoundItem,
-  getItemsByUser,
-};
+export { handleAllItems, addMissingItem, addFoundItem, getItemsByUser };

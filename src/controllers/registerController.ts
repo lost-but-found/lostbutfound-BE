@@ -1,12 +1,10 @@
-const User = require("../models/User");
+import User from "../models/User";
 const bcrypt = require("bcrypt");
 
 const handleNewUser = async (req, res) => {
-  const { fullName, email, pwd } = req.body;
-  if (!email || !pwd || !fullName)
-    return res
-      .status(400)
-      .json({ message: "Email and password are required." });
+  const { fullName, email, pwd, phoneNumber } = req.body;
+  if (!email || !pwd || !fullName || !phoneNumber)
+    return res.status(400).json({ message: "Please fill in all details" });
 
   // check for duplicate usernames in the db
   const duplicate = await User.findOne({ email }).exec();
@@ -21,6 +19,7 @@ const handleNewUser = async (req, res) => {
       fullName,
       email,
       password: hashedPwd,
+      phoneNumber,
     });
     console.log(result);
 
@@ -30,4 +29,4 @@ const handleNewUser = async (req, res) => {
   }
 };
 
-module.exports = { handleNewUser };
+export { handleNewUser };

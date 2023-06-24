@@ -13,6 +13,12 @@ const cookieParser = require("cookie-parser");
 const credentials = require("./middleware/credentials");
 const mongoose = require("mongoose");
 const connectDB = require("./config/dbConn");
+// Routes imports
+const add_missing_item_1 = __importDefault(require("./routes/items/add-missing-item"));
+const add_found_item_1 = __importDefault(require("./routes/items/add-found-item"));
+const register_1 = __importDefault(require("./routes/register"));
+const login_1 = __importDefault(require("./routes/login"));
+const all_items_1 = __importDefault(require("./routes/items/all-items"));
 const PORT = process.env.PORT || 3500;
 // Connect to MongoDB
 connectDB();
@@ -28,16 +34,14 @@ app.use(express.json());
 //middleware for cookies
 app.use(cookieParser());
 // routes
-app.use("/register", require("./routes/register"));
-app.use("/login", require("./routes/login"));
-app.use("/all-items", require("./routes/items/all-items"));
-// app.use("/refresh", require("./routes/refresh"));
-// app.use("/logout", require("./routes/logout"));
+app.use("/register", register_1.default);
+app.use("/login", login_1.default);
+app.use("/all-items", all_items_1.default);
+app.use("/refresh", require("./routes/refresh"));
 app.use(verifyJWT_1.default);
-app.use("/add-missing-item", require("./routes/items/add-missing-item"));
-app.use("/add-found-item", require("./routes/items/add-found-item"));
+app.use("/missing-item", add_missing_item_1.default);
+app.use("/found-item", add_found_item_1.default);
 app.use("/items-by-user", require("./routes/items/items-by-user"));
-//app.use("/employees", require("./routes/api/employees"));
 mongoose.connection.once("open", () => {
     console.log("Connected to MongoDB");
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
