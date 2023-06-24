@@ -3,6 +3,8 @@ import { NextFunction, Request, Response } from "express";
 
 interface CustomRequest extends Request {
   user?: string;
+  userEmail: string;
+  userId: string;
 }
 
 const verifyJWT = (req: CustomRequest, res: Response, next: NextFunction) => {
@@ -24,8 +26,8 @@ const verifyJWT = (req: CustomRequest, res: Response, next: NextFunction) => {
         console.log(err);
       }
 
-      req.user = decoded.email;
-      // req.roles = decoded.UserInfo.roles;
+      req.userEmail = decoded.UserInfo.email;
+      req.userId = decoded.UserInfo._id;
       next();
     }
   );

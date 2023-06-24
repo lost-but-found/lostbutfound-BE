@@ -6,6 +6,11 @@ interface IUser extends Document {
   phoneNumber: string;
   password: string;
   personalID: string;
+  verified: boolean;
+  tempOTP: {
+    timeStamp: number;
+    OTP: string;
+  };
   refreshToken: string;
 }
 
@@ -30,6 +35,11 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true,
+  },
+  verified: Boolean,
+  tempOTP: {
+    timeStamp: Number,
+    OTP: String,
   },
   refreshToken: String,
 });
