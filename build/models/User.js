@@ -23,6 +23,11 @@ const userSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
+    verified: Boolean,
+    tempOTP: {
+        timeStamp: Number,
+        OTP: String,
+    },
     refreshToken: String,
 });
 // module.exports = mongoose.model("User", userSchema);

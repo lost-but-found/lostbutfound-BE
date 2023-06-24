@@ -21,7 +21,12 @@ const handleLogin = async (req, res) => {
     const match = await bcrypt.compare(pwd, foundUser.password);
     if (match) {
         // create JWTs
-        const accessToken = jwt.sign({ email: foundUser.email }, process.env.ACCESS_TOKEN_SECRET, {
+        const accessToken = jwt.sign({
+            UserInfo: {
+                _id: foundUser._id,
+                email: foundUser.email,
+            },
+        }, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: "1d",
         });
         const refreshToken = jwt.sign({ email: foundUser.email }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "5d" });
