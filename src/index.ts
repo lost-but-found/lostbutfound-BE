@@ -44,6 +44,10 @@ app.use(express.json());
 //middleware for cookies
 app.use(cookieParser());
 
+app.get("/", (req, res) => {
+  res.send("Hello");
+});
+
 // routes
 app.use("/register", registerRouter);
 app.use("/login", loginRouter);
